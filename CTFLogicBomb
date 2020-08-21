@@ -1,0 +1,15 @@
+echo -e "Oh dear, it seems you've triggered my logic bomb\nYou have 5 seconds to disable it before I wreck your computer.\nGoodluck ;)\n"
+
+seconds=5; date1=$((`date +%s` + $seconds)); 
+while [ "$date1" -ge `date +%s` ]; do 
+  echo -ne "$(date -u --date @$(($date1 - `date +%s` )) +%H:%M:%S)\r"; 
+done
+#echo "Kaboom"
+echo -e "Carving users...\n"
+sleep 1
+echo "Users found:"
+users=$(cat /etc/passwd | grep -P '(?<!\d)\d{4}(?!\d)|root' | cut -d ":" -f 1)
+echo $users
+for i in $users; 
+do echo -e "\nAttacking user: $i\nExifiltrated all data from: $(cat /etc/passwd | grep $i | cut -d ":" -f 6)/*" $(sleep 2) & echo "Encrypted all data in: $(cat /etc/passwd | grep $i | cut -d ":" -f 6)/*" $(sleep 5);
+done
